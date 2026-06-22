@@ -1,60 +1,75 @@
-function About() {
+import React from "react";
+import Navbar from "../components/navbar";
+import Footer from "../components/footer";
+
+const About: React.FC = () => {
   return (
-    <div className="bg-gray-100 min-h-screen py-16 px-6">
-      <div className="max-w-5xl mx-auto bg-white shadow-lg rounded-xl p-8">
-        <h1 className="text-4xl font-bold text-green-700 mb-6">
-          About SmartPantry
-        </h1>
+    <div className="min-h-screen bg-white text-gray-900 dark:bg-gray-950 dark:text-white">
+      <Navbar />
 
-        <p className="text-gray-700 text-lg mb-4">
-          SmartPantry is a web-based platform designed to help users reduce food
-          waste and manage their kitchen inventory efficiently.
-        </p>
+      <main>
+        <section className="bg-gray-50 py-16 dark:bg-gray-900">
+          <div className="mx-auto max-w-6xl px-6">
+            <div className="mx-auto max-w-3xl text-center">
+              <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-green-600 dark:text-green-400">
+                About SmartPantry
+              </p>
+              <h1 className="mb-6 text-4xl font-bold md:text-5xl">
+                A smarter way to manage your kitchen and reduce food waste
+              </h1>
+              <p className="text-lg text-gray-600 dark:text-gray-300">
+                SmartPantry helps users organize pantry items, monitor expiry
+                dates, discover recipes using available ingredients, and reduce
+                unnecessary food waste through a simple and modern web app.
+              </p>
+            </div>
 
-        <p className="text-gray-700 text-lg mb-4">
-          The platform allows users to track pantry ingredients, monitor
-          expiration dates, receive recipe suggestions based on available
-          ingredients, discover suitable substitutes for missing items, and
-          learn food preservation techniques.
-        </p>
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
+              <div className="rounded-2xl bg-white p-6 shadow dark:bg-gray-800">
+                <h2 className="mb-3 text-2xl font-semibold">Our Goal</h2>
+                <p className="text-gray-600 dark:text-gray-300">
+                  To make pantry management easy, practical, and helpful for
+                  everyday households.
+                </p>
+              </div>
 
-        <p className="text-gray-700 text-lg mb-4">
-          By providing intelligent pantry management tools, SmartPantry helps
-          households save money, reduce food wastage, and make better use of
-          available ingredients.
-        </p>
+              <div className="rounded-2xl bg-white p-6 shadow dark:bg-gray-800">
+                <h2 className="mb-3 text-2xl font-semibold">What It Solves</h2>
+                <p className="text-gray-600 dark:text-gray-300">
+                  It reduces forgotten groceries, avoids expired food, and helps
+                  users cook from ingredients they already have.
+                </p>
+              </div>
 
-        <div className="grid md:grid-cols-3 gap-6 mt-10">
-          <div className="bg-green-50 p-5 rounded-lg">
-            <h3 className="text-xl font-semibold text-green-700 mb-2">
-              📦 Inventory Tracking
-            </h3>
-            <p className="text-gray-600">
-              Keep track of ingredients and their shelf life.
-            </p>
+              <div className="rounded-2xl bg-white p-6 shadow dark:bg-gray-800">
+                <h2 className="mb-3 text-2xl font-semibold">Key Features</h2>
+                <p className="text-gray-600 dark:text-gray-300">
+                  Inventory tracking, expiry alerts, recipe suggestions,
+                  ingredient substitutes, and a clean dashboard.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-12 rounded-2xl bg-white p-8 shadow dark:bg-gray-800">
+              <h2 className="mb-4 text-3xl font-bold">Why SmartPantry?</h2>
+              <p className="mb-4 text-gray-600 dark:text-gray-300">
+                Many households buy groceries with good intentions but still end
+                up wasting food because ingredients get forgotten in the pantry
+                or fridge. SmartPantry is designed to make that process easier.
+              </p>
+              <p className="text-gray-600 dark:text-gray-300">
+                By combining pantry tracking with recipe suggestions and simple
+                reminders, SmartPantry helps users make better use of what they
+                already have at home.
+              </p>
+            </div>
           </div>
+        </section>
+      </main>
 
-          <div className="bg-green-50 p-5 rounded-lg">
-            <h3 className="text-xl font-semibold text-green-700 mb-2">
-              🍳 Recipe Suggestions
-            </h3>
-            <p className="text-gray-600">
-              Discover recipes using ingredients already available at home.
-            </p>
-          </div>
-
-          <div className="bg-green-50 p-5 rounded-lg">
-            <h3 className="text-xl font-semibold text-green-700 mb-2">
-              ❄️ Food Preservation
-            </h3>
-            <p className="text-gray-600">
-              Learn practical tips to extend ingredient freshness.
-            </p>
-          </div>
-        </div>
-      </div>
+      <Footer />
     </div>
   );
-}
+};
 
 export default About;

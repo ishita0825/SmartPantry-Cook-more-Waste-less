@@ -4,7 +4,8 @@ import Footer from "../components/footer";
 import { Button, Input } from "../components/ui";
 import { Link } from "react-router-dom";
 
-const Login: React.FC = () => {
+const Signup: React.FC = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -14,12 +15,19 @@ const Login: React.FC = () => {
 
       <main className="flex items-center justify-center px-6 py-12">
         <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow dark:bg-gray-900">
-          <h1 className="mb-2 text-3xl font-bold">Login</h1>
+          <h1 className="mb-2 text-3xl font-bold">Create Account</h1>
           <p className="mb-6 text-gray-600 dark:text-gray-300">
-            Access your SmartPantry account.
+            Join SmartPantry and start managing your pantry smarter.
           </p>
 
           <div className="space-y-4">
+            <Input
+              label="Full Name"
+              placeholder="Enter your full name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+
             <Input
               label="Email"
               type="email"
@@ -31,21 +39,21 @@ const Login: React.FC = () => {
             <Input
               label="Password"
               type="password"
-              placeholder="Enter your password"
+              placeholder="Create a password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            <Button className="w-full">Login</Button>
+            <Button className="w-full">Sign Up</Button>
           </div>
 
           <p className="mt-6 text-sm text-gray-600 dark:text-gray-300">
-            Don’t have an account?{" "}
+            Already have an account?{" "}
             <Link
-              to="/signup"
+              to="/login"
               className="font-medium text-green-600 dark:text-green-400"
             >
-              Sign up
+              Login
             </Link>
           </p>
         </div>
@@ -56,4 +64,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default Signup;

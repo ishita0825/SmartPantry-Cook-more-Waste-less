@@ -1,18 +1,17 @@
-type CardProps = {
+interface CardProps {
   title: string;
   description: string;
-};
+  icon: string;
+}
 
-function Card({ title, description }: CardProps) {
+function Card({ title, description, icon }: CardProps) {
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition">
-      <h2 className="text-2xl font-bold text-green-700 mb-3">
+    <div className="rounded-2xl bg-white p-6 shadow-md transition hover:-translate-y-1 hover:shadow-xl dark:bg-gray-900">
+      <div className="mb-4 text-4xl">{icon}</div>
+      <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-white">
         {title}
-      </h2>
-
-      <p className="text-gray-600">
-        {description}
-      </p>
+      </h3>
+      <p className="text-gray-600 dark:text-gray-300">{description}</p>
     </div>
   );
 }
