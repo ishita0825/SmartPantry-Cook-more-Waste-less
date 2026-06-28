@@ -1,10 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import { Button } from "../components/ui";
 import { Link } from "react-router-dom";
-
+import { itemsService, recipesService } from "../services/api";
+import Loader from "../components/ui/loader";
 const Home: React.FC = () => {
+  const [items, setItems] = useState<any[]>([]);
+  const [recipes, setRecipes] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [suggestedRecipe, setSuggestedRecipe] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+
+        // Fetch items
+        const itemsData = await itemsService.getAllItems();
+        setItems(itemsData.items);
+
+        // Fetch recipes
+        const recipesData = await recipesService.getAllRecipes();
+        setRecipes(recipesData.recipes);
+
+        // Pick a random recipe to display
+        if (recipesData.recipes.length > 0) {
+          const randomRecipe =
+            recipesData.recipes[
+              Math.floor(Math.random() * recipesData.recipes.length)
+            ];
+          setSuggestedRecipe(randomRecipe);
+        }
+      } catch (err) {
+        console.error("Failed to fetch data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Count items expiring soon (for demo, just count items with expiryDate)
+  const expiringCount = items.filter((item) => item.expiryDate).length;
+
+  if (loading) return <Loader />;
+
   return (
     <div className="min-h-screen bg-white text-gray-900 dark:bg-gray-950 dark:text-white">
       <Navbar />
@@ -42,7 +84,7 @@ const Home: React.FC = () => {
               </div>
             </div>
 
-            {/* Right showcase card */}
+            {/* Right showcase card - NOW WITH REAL DATA */}
             <div className="rounded-3xl bg-white p-6 shadow-lg dark:bg-gray-900">
               <div className="space-y-5">
                 <div className="rounded-2xl bg-green-50 p-6 dark:bg-gray-800">
@@ -50,10 +92,10 @@ const Home: React.FC = () => {
                     Pantry Overview
                   </h3>
                   <p className="text-lg text-gray-700 dark:text-gray-300">
-                    18 ingredients in stock
+                    {items.length} ingredients in stock
                   </p>
                   <p className="text-lg text-gray-700 dark:text-gray-300">
-                    4 items expiring soon
+                    {expiringCount} items expiring soon
                   </p>
                 </div>
 
@@ -62,17 +104,24 @@ const Home: React.FC = () => {
                     Suggested Recipe
                   </h3>
                   <p className="text-lg text-gray-700 dark:text-gray-300">
-                    Vegetable Stir Fry using carrots, onions, capsicum and rice
+                    {suggestedRecipe ? (
+                      <>
+                        <strong>{suggestedRecipe.name}</strong> using{" "}
+                        {suggestedRecipe.ingredients?.join(", ") ||
+                          "available ingredients"}
+                      </>
+                    ) : (
+                      "No recipes available yet"
+                    )}
                   </p>
                 </div>
 
                 <div className="rounded-2xl bg-green-50 p-6 dark:bg-gray-800">
                   <h3 className="mb-3 text-2xl font-semibold text-green-700 dark:text-green-400">
-                    Preservation Tip
+                    Total Recipes
                   </h3>
                   <p className="text-lg text-gray-700 dark:text-gray-300">
-                    Store leafy vegetables in an airtight container with a paper
-                    towel to keep them fresh longer.
+                    {recipes.length} recipes available for you
                   </p>
                 </div>
               </div>
@@ -125,7 +174,7 @@ const Home: React.FC = () => {
                   Substitute Finder
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300">
-                  Find easy ingredient substitutions when you’re missing
+                  Find easy ingredient substitutions when you're missing
                   something.
                 </p>
               </div>

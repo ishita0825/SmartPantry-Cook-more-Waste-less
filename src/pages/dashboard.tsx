@@ -1,9 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import { Button } from "../components/ui";
+import { itemsService } from "../services/api";
+import Loader from "../components/ui/loader";
 
 const Dashboard: React.FC = () => {
+  const [items, setItems] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        setLoading(true);
+        const data = await itemsService.getAllItems();
+        setItems(data.items);
+        setError("");
+      } catch (err) {
+        setError("Failed to load items from backend");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchItems();
+  }, []);
+
+  if (loading) return <Loader />;
+
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-white">
       <Navbar />
@@ -24,12 +50,16 @@ const Dashboard: React.FC = () => {
         <div className="mb-8 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           <div className="rounded-2xl bg-white p-6 shadow dark:bg-gray-900">
             <h2 className="text-lg font-medium">Total Items</h2>
-            <p className="mt-4 text-4xl font-bold text-green-600">18</p>
+            <p className="mt-4 text-4xl font-bold text-green-600">
+              {items.length}
+            </p>
           </div>
 
           <div className="rounded-2xl bg-white p-6 shadow dark:bg-gray-900">
             <h2 className="text-lg font-medium">Expiring Soon</h2>
-            <p className="mt-4 text-4xl font-bold text-amber-500">4</p>
+            <p className="mt-4 text-4xl font-bold text-amber-500">
+              {items.filter((item) => item.expiryDate).length}
+            </p>
           </div>
 
           <div className="rounded-2xl bg-white p-6 shadow dark:bg-gray-900">
@@ -45,32 +75,38 @@ const Dashboard: React.FC = () => {
 
         <div className="grid gap-8 lg:grid-cols-2">
           <section className="rounded-2xl bg-white p-6 shadow dark:bg-gray-900">
-            <h2 className="mb-5 text-3xl font-bold">Pantry Items</h2>
+            <h2 className="mb-5 text-3xl font-bold">
+              Pantry Items (From Backend)
+            </h2>
+
+            {error && <p className="text-red-600 mb-4">{error}</p>}
 
             <div className="space-y-4">
-              <div className="rounded-2xl border border-gray-200 p-5 dark:border-gray-700">
-                <h3 className="text-2xl font-semibold">Tomatoes</h3>
-                <p className="mt-2 text-gray-600 dark:text-gray-300">
-                  Quantity: 5 pcs
+              {items.length === 0 ? (
+                <p className="text-gray-600 dark:text-gray-300">
+                  No items in pantry
                 </p>
-                <p className="text-amber-600">2 days left</p>
-              </div>
-
-              <div className="rounded-2xl border border-gray-200 p-5 dark:border-gray-700">
-                <h3 className="text-2xl font-semibold">Milk</h3>
-                <p className="mt-2 text-gray-600 dark:text-gray-300">
-                  Quantity: 1 litre
-                </p>
-                <p className="text-amber-600">1 day left</p>
-              </div>
-
-              <div className="rounded-2xl border border-gray-200 p-5 dark:border-gray-700">
-                <h3 className="text-2xl font-semibold">Rice</h3>
-                <p className="mt-2 text-gray-600 dark:text-gray-300">
-                  Quantity: 2 kg
-                </p>
-                <p className="text-green-600">Fresh stock</p>
-              </div>
+              ) : (
+                items.map((item) => (
+                  <div
+                    key={item.id}
+                    className="rounded-2xl border border-gray-200 p-5 dark:border-gray-700"
+                  >
+                    <h3 className="text-2xl font-semibold">{item.name}</h3>
+                    <p className="mt-2 text-gray-600 dark:text-gray-300">
+                      Quantity: {item.quantity} {item.unit}
+                    </p>
+                    {item.expiryDate && (
+                      <p className="text-amber-600">
+                        Expires: {item.expiryDate}
+                      </p>
+                    )}
+                    <p className="text-sm text-gray-500 mt-2">
+                      Category: {item.category}
+                    </p>
+                  </div>
+                ))
+              )}
             </div>
           </section>
 

@@ -1,0 +1,40 @@
+### Get All Items
+GET http://localhost:5000/api/items
+
+### Get All Recipes
+GET http://localhost:5000/api/recipes
+
+### Create New Item
+POST http://localhost:5000/api/items
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "name": "Flour",
+  "quantity": 2,
+  "unit": "kg",
+  "expiryDate": "2026-06-30",
+  "category": "pantry"
+}
+
+### Get Single Item
+GET http://localhost:5000/api/items/1
+
+### User Signup
+POST http://localhost:5000/api/users/signup
+Content-Type: application/json
+
+{
+  "name": "John",
+  "email": "john@example.com",
+  "password": "password123"
+}
+
+### User Login
+POST http://localhost:5000/api/users/login
+Content-Type: application/json
+
+{
+  "email": "ishita@example.com",
+  "password": "pass123"
+}
